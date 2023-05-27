@@ -1,73 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# **Tracos-API**
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![GitHub repo size](https://img.shields.io/github/repo-size/tmmarquess/tracos-api?style=for-the-badge)
+![GitHub top language](https://img.shields.io/github/languages/top/tmmarquess/tracos-api?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/tmmarquess/tracos-api?style=for-the-badge)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Sobre 📚
 
-## Description
+API backend da aplicação Tracos desenvolvida para a disciplina de sistemas paralelos e distribuídos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Executando a aplicação 🚀
 
-## Installation
+### Pré-requisitos 💻
 
-```bash
-$ npm install
+Antes de começar, você precisa ter instalado no seu computador as ferramentas:
+
+* [Git](https://git-scm.com/)
+* [NodeJS](https://nodejs.org/en)
+
+### instalando a **API** 📲
+
+```
+# Clone o repositório para o seu computador
+$ https://github.com/tmmarquess/tracos-api.git
+
+# Navegue para a pasta do código
+$ cd tracos-api
+
+# Instale as dependências
+$ npm i
 ```
 
-## Running the app
+### Configurando o ambiente ⚙️
 
-```bash
-# development
-$ npm run start
+ Renomeie  o arquivo `.env.example` para `.env` e prencha os campos vazios conforme o exemplo:
 
-# watch mode
-$ npm run start:dev
+ ```
+JWT_SECRET_KEY=<key_secreta>
 
-# production mode
-$ npm run start:prod
+TYPEORM_CONNECTION=<SDGB_utilizado>
+TYPEORM_HOST=<host_do_SDGB>
+PORT=<porta_do_SDGB>
+TYPEORM_USERNAME=<username_de_autenticacao_SGBD>
+TYPEORM_PASSWORD=<senha_de_autenticacao_SGBD>
+TYPEORM_DATABASE=<nome_do_Banco_de_dados>
+ ```
+
+### Iniciando o projeto 🤓
+
+Após instalar as dependências e configurar o arquivo `.env`, basta digitar em seu terminal o comando:
+
+``` shell
+$ npm start
 ```
 
-## Test
+## Equipe 🤝🏼
 
-```bash
-# unit tests
-$ npm run test
+<table>
+  <tr>
+    <td align="center">
+      <a href="#">
+        <img src="https://github.com/tmmarquess.png" width="100px;" alt="Foto"/><br>
+        <sub>
+          <a href="https://github.com/tmmarquess">Thiago Marques</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://github.com/beatrizdamascenof.png" width="100px;" alt="Foto"/><br>
+        <sub>
+          <a href="https://github.com/beatrizdamascenof">Beatriz Damasceno</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://github.com/Debby-Barros.png" width="100px;" alt="Foto"/><br>
+        <sub>
+            <a href="https://github.com/Debby-Barros"> Debora Barros</a>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+[⬆ Voltar ao topo](#tracos-api)<br>
