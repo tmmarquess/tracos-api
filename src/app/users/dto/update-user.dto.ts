@@ -8,6 +8,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @IsNotEmpty()
   nickname: string;
+
   @IsNotEmpty()
   phone: string;
 
