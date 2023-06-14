@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './app/users/users.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ProductsModule } from './app/products/products.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
       synchronize: true,
     } as TypeOrmModuleOptions),
     UsersModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],
