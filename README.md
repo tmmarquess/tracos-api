@@ -32,7 +32,7 @@ $ npm i
 
 ### Configurando o ambiente ⚙️
 
- Renomeie  o arquivo `.env.example` para `.env` e prencha os campos vazios conforme o exemplo:
+ Renomeie  o arquivo `.env.example` para `development.env` e prencha os campos vazios conforme o exemplo:
 
  ```
 JWT_SECRET_KEY=<key_secreta>
@@ -47,10 +47,16 @@ TYPEORM_DATABASE=<nome_do_Banco_de_dados>
 
 ### Iniciando o projeto 🤓
 
-Após instalar as dependências e configurar o arquivo `.env`, basta digitar em seu terminal o comando:
+Após instalar as dependências e configurar o arquivo `development.env`, basta digitar em seu terminal o comando:
 
 ``` shell
 $ npm start
+```
+
+Caso você tenha um database separado para Desenvolvimento & produção, crie o arquivo `production.env` nos mesmos parâmetros do `.env.example` e para utilizar estas configurações, digite no terminal:
+
+``` shell
+$ npm run start:prod
 ```
 
 ## Equipe 🤝🏼

@@ -6,11 +6,12 @@ import { ProductsModule } from './app/products/products.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ envFilePath: `${process.env.NODE_ENV}.env` }),
     TypeOrmModule.forRoot({
       type: process.env.TYPEORM_CONNECTION,
-      host: process.env.TYPEORM_HOST,
-      port: process.env.TYPEORM_PORT,
+      host: process.env.TYPEORM_HOST || null,
+      port: process.env.TYPEORM_PORT || null,
+      url: process.env.TYPEORM_URL || null,
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
