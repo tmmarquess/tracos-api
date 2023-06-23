@@ -32,13 +32,9 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    try {
-      return await this.usersRepository.findOneOrFail({
-        where: { email: email },
-      });
-    } catch (error) {
-      return new NotFoundException(error.message);
-    }
+    return await this.usersRepository.findOneOrFail({
+      where: { email: email },
+    });
   }
 
   async update(id: string, newUserData: UpdateUserDto) {
