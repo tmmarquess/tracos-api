@@ -4,12 +4,14 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productsRepository: Repository<ProductEntity>,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(productData: CreateProductDto) {
@@ -19,7 +21,8 @@ export class ProductsService {
 
   async findAll() {
     return await this.productsRepository.find({
-      select: ['id', 'name', 'description', 'category', 'donation', 'zipCode'],
+      select: ['id', 'name', 'owner', 'description', 'category', 'donation'],
+      relations: { owner: true },
     });
   }
 
@@ -32,7 +35,7 @@ export class ProductsService {
   }
 
   async findByCreator(id: string) {
-    return await this.productsRepository.find({ where: { creatorId: id } });
+    return await this.usersService.getProducts(id);
   }
 
   async update(id: string, newProductData: UpdateProductDto) {

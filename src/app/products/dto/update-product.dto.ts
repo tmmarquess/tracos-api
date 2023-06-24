@@ -14,7 +14,4 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
 
   @IsNotEmpty()
   donation: boolean;
-
-  @IsNotEmpty()
-  zipCode: string;
 }

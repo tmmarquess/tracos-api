@@ -31,6 +31,15 @@ export class UsersService {
     }
   }
 
+  async getProducts(id: string) {
+    const user = await this.usersRepository.findOne({
+      where: { id: id },
+      relations: { products: true },
+    });
+
+    return user.products;
+  }
+
   async findOneByEmail(email: string) {
     return await this.usersRepository.findOneOrFail({
       where: { email: email },
