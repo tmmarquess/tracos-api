@@ -3,19 +3,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from '../users/user.entity';
 
 @Entity({ name: 'products' })
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.products)
-  owner: UserEntity;
+  @Column()
+  owner: string;
 
   @Column()
   name: string;
@@ -28,6 +26,9 @@ export class ProductEntity {
 
   @Column()
   donation: boolean;
+
+  @Column({ default: false })
+  traded: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;

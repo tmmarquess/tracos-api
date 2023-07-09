@@ -1,12 +1,11 @@
 import { IsNotEmpty } from 'class-validator';
-import { UserEntity } from 'src/app/users/user.entity';
 
 export class CreateProductDto {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  owner: UserEntity;
+  owner: string;
 
   @IsNotEmpty()
   description: string;

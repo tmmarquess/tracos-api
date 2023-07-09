@@ -15,27 +15,40 @@ export class ProductsService {
   ) {}
 
   async create(productData: CreateProductDto) {
+    await this.usersService.findOne(productData.owner);
+
     const product = await this.productsRepository.create(productData);
     return await this.productsRepository.save(product);
   }
 
   async findAll() {
     return await this.productsRepository.find({
-      select: ['id', 'name', 'owner', 'description', 'category', 'donation'],
-      relations: { owner: true },
+      select: [
+        'id',
+        'name',
+        'description',
+        'category',
+        'donation',
+        'owner',
+        'traded',
+      ],
     });
   }
 
   async findOne(id: string) {
     try {
-      return await this.productsRepository.findOneOrFail({ where: { id: id } });
+      return await this.productsRepository.findOneOrFail({
+        where: { id: id },
+      });
     } catch (error) {
-      return new NotFoundException(error.message);
+      throw new NotFoundException("There's no product with this id");
     }
   }
 
   async findByCreator(id: string) {
-    return await this.usersService.getProducts(id);
+    return await this.productsRepository.find({
+      where: { owner: id },
+    });
   }
 
   async update(id: string, newProductData: UpdateProductDto) {

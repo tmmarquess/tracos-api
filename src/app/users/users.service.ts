@@ -27,17 +27,8 @@ export class UsersService {
     try {
       return await this.usersRepository.findOneOrFail({ where: { id: id } });
     } catch (error) {
-      return new NotFoundException(error.message);
+      throw new NotFoundException("There's no user with this id");
     }
-  }
-
-  async getProducts(id: string) {
-    const user = await this.usersRepository.findOne({
-      where: { id: id },
-      relations: { products: true },
-    });
-
-    return user.products;
   }
 
   async findOneByEmail(email: string) {
