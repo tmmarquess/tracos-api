@@ -58,13 +58,13 @@ measurementId=<Parametro_do_firebase>
 Após instalar as dependências e configurar o arquivo `development.env`, basta digitar em seu terminal o comando:
 
 ``` shell
-$ npm start
+npm start
 ```
 
 Caso você tenha um database separado para Desenvolvimento & produção, crie o arquivo `production.env` nos mesmos parâmetros do `.env.example` e para utilizar estas configurações, digite no terminal:
 
 ``` shell
-$ npm run start:prod
+npm run start:prod
 ```
 
 ## Equipe 🤝🏼
