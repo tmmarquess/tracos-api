@@ -43,6 +43,14 @@ PORT=<porta_do_SDGB>
 TYPEORM_USERNAME=<username_de_autenticacao_SGBD>
 TYPEORM_PASSWORD=<senha_de_autenticacao_SGBD>
 TYPEORM_DATABASE=<nome_do_Banco_de_dados>
+
+apiKey=<Parametro_do_firebase>
+authDomain=<Parametro_do_firebase>
+projectId=<Parametro_do_firebase>
+storageBucket=<Parametro_do_firebase>
+messagingSenderId=<Parametro_do_firebase>
+appId=<Parametro_do_firebase>
+measurementId=<Parametro_do_firebase>
  ```
 
 ### Iniciando o projeto 🤓
