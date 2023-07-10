@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 @Injectable()
 export class UsersService {
@@ -12,8 +13,35 @@ export class UsersService {
     private readonly usersRepository: Repository<UserEntity>,
   ) {}
 
-  async create(userData: CreateUserDto) {
-    const user = await this.usersRepository.create(userData);
+  async uploadPicture(
+    profilePicture: Express.Multer.File,
+    userNickname: string,
+  ) {
+    const storage = getStorage();
+    const extensionPattern = /\.[0-9a-z]+$/i;
+    const picture_name = `pfp-${userNickname}${
+      profilePicture.originalname.match(extensionPattern)[0]
+    }`;
+    const storageRef = ref(storage, picture_name);
+
+    const metadata = {
+      contentType: profilePicture.mimetype,
+    };
+
+    await uploadBytes(storageRef, profilePicture.buffer, metadata);
+
+    return getDownloadURL(storageRef);
+  }
+
+  async create(userData: CreateUserDto, profilePicture: Express.Multer.File) {
+    let user = await this.usersRepository.create(userData);
+
+    user = await this.usersRepository.save(user);
+
+    if (profilePicture != undefined) {
+      user.pictureUrl = await this.uploadPicture(profilePicture, user.id);
+    }
+
     return await this.usersRepository.save(user);
   }
 
