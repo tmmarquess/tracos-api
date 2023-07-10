@@ -40,9 +40,10 @@ export class UsersService {
 
     if (profilePicture != undefined) {
       user.pictureUrl = await this.uploadPicture(profilePicture, user.id);
+      return await this.usersRepository.save(user);
+    } else {
+      return user;
     }
-
-    return await this.usersRepository.save(user);
   }
 
   async findAll() {

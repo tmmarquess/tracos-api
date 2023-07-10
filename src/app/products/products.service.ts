@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 @Injectable()
 export class ProductsService {
@@ -14,11 +15,38 @@ export class ProductsService {
     private readonly usersService: UsersService,
   ) {}
 
-  async create(productData: CreateProductDto) {
+  async uploadPicture(productPicture: Express.Multer.File, productId: string) {
+    const storage = getStorage();
+    const extensionPattern = /\.[0-9a-z]+$/i;
+    const picture_name = `${productId}${
+      productPicture.originalname.match(extensionPattern)[0]
+    }`;
+    const storageRef = ref(storage, picture_name);
+
+    const metadata = {
+      contentType: productPicture.mimetype,
+    };
+
+    await uploadBytes(storageRef, productPicture.buffer, metadata);
+
+    return getDownloadURL(storageRef);
+  }
+
+  async create(
+    productData: CreateProductDto,
+    productImage: Express.Multer.File,
+  ) {
     await this.usersService.findOne(productData.owner);
 
-    const product = await this.productsRepository.create(productData);
-    return await this.productsRepository.save(product);
+    let product = await this.productsRepository.create(productData);
+    product = await this.productsRepository.save(product);
+
+    if (productImage != undefined) {
+      product.pictureUrl = await this.uploadPicture(productImage, product.id);
+      return await await this.productsRepository.save(product);
+    } else {
+      return product;
+    }
   }
 
   async findAll() {
@@ -31,6 +59,7 @@ export class ProductsService {
         'donation',
         'owner',
         'traded',
+        'pictureUrl',
       ],
     });
   }

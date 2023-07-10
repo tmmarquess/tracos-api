@@ -7,11 +7,14 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/v0/products')
 export class ProductsController {
@@ -19,8 +22,12 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Post()
-  async create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @UseInterceptors(FileInterceptor('productImage'))
+  async create(
+    @Body() createProductDto: CreateProductDto,
+    @UploadedFile() productImage: Express.Multer.File,
+  ) {
+    return this.productsService.create(createProductDto, productImage);
   }
 
   @UseGuards(AuthGuard)

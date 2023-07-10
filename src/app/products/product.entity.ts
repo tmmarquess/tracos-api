@@ -24,6 +24,9 @@ export class ProductEntity {
   @Column()
   category: string;
 
+  @Column({ default: '' })
+  pictureUrl: string;
+
   @Column()
   donation: boolean;
 
