@@ -43,6 +43,14 @@ PORT=<porta_do_SDGB>
 TYPEORM_USERNAME=<username_de_autenticacao_SGBD>
 TYPEORM_PASSWORD=<senha_de_autenticacao_SGBD>
 TYPEORM_DATABASE=<nome_do_Banco_de_dados>
+
+apiKey=<Parametro_do_firebase>
+authDomain=<Parametro_do_firebase>
+projectId=<Parametro_do_firebase>
+storageBucket=<Parametro_do_firebase>
+messagingSenderId=<Parametro_do_firebase>
+appId=<Parametro_do_firebase>
+measurementId=<Parametro_do_firebase>
  ```
 
 ### Iniciando o projeto 🤓
@@ -50,13 +58,13 @@ TYPEORM_DATABASE=<nome_do_Banco_de_dados>
 Após instalar as dependências e configurar o arquivo `development.env`, basta digitar em seu terminal o comando:
 
 ``` shell
-$ npm start
+npm start
 ```
 
 Caso você tenha um database separado para Desenvolvimento & produção, crie o arquivo `production.env` nos mesmos parâmetros do `.env.example` e para utilizar estas configurações, digite no terminal:
 
 ``` shell
-$ npm run start:prod
+npm run start:prod
 ```
 
 ## Equipe 🤝🏼
