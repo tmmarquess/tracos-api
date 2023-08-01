@@ -66,9 +66,28 @@ export class ProductsService {
 
   async findOne(id: string) {
     try {
-      return await this.productsRepository.findOneOrFail({
+      const product = await this.productsRepository.findOneOrFail({
         where: { id: id },
       });
+
+      const owner = await this.usersService.findOne(product.owner);
+
+      const ownerEmail = owner.email;
+      let ownerPhone = null;
+      if (owner.sharePhone) {
+        ownerPhone = owner.phone;
+      }
+      return {
+        id: product.id,
+        owner: product.owner,
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        pictureUrl: product.pictureUrl,
+        donation: product.donation,
+        phone: ownerPhone,
+        email: ownerEmail,
+      };
     } catch (error) {
       throw new NotFoundException("There's no product with this id");
     }

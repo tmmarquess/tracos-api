@@ -39,6 +39,9 @@ export class UserEntity {
   @Column({ default: 0 })
   score: number;
 
+  @Column({ default: false })
+  sharePhone: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
 
