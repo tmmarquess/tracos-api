@@ -74,6 +74,12 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async updateScore(id: string, score: number) {
+    const user = await this.findOne(id);
+    user.score = score;
+    return await this.usersRepository.save(user);
+  }
+
   async remove(id: string) {
     await this.usersRepository.findOne({ where: { id: id } });
     this.usersRepository.softDelete(id);

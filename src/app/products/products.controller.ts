@@ -60,6 +60,12 @@ export class ProductsController {
   @UseGuards(AuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.productsService.remove(id);
+    return this.productsService.remove(id, false);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/traded/:id')
+  async removeTraded(@Param('id') id: string) {
+    return this.productsService.remove(id, true);
   }
 }

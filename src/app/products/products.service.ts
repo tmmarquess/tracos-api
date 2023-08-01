@@ -107,8 +107,23 @@ export class ProductsService {
     return await this.productsRepository.save(product);
   }
 
-  async remove(id: string) {
-    await this.productsRepository.findOne({ where: { id: id } });
+  async remove(id: string, traded: boolean) {
+    const product = await this.productsRepository.findOne({
+      where: { id: id },
+    });
+
+    if (traded) {
+      const owner = await this.usersService.findOne(product.owner);
+
+      if (product.donation) {
+        this.usersService.updateScore(owner.id, owner.score + 10);
+      } else {
+        this.usersService.updateScore(owner.id, owner.score + 5);
+      }
+      product.traded = true;
+      this.productsRepository.save(product);
+    }
+
     this.productsRepository.softDelete(id);
   }
 }
