@@ -1,17 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from 'firebase/storage';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productsRepository: Repository<ProductEntity>,
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
   ) {}
 
@@ -30,6 +42,19 @@ export class ProductsService {
     await uploadBytes(storageRef, productPicture.buffer, metadata);
 
     return getDownloadURL(storageRef);
+  }
+
+  async deletePicture(pictureUrl: string) {
+    console.log(pictureUrl);
+    if (pictureUrl === '' || pictureUrl === null || pictureUrl === undefined) {
+      return;
+    }
+    const storage = getStorage();
+    const storageRef = ref(storage, pictureUrl);
+
+    deleteObject(storageRef).catch((error) => {
+      console.log(error);
+    });
   }
 
   async create(
@@ -124,6 +149,7 @@ export class ProductsService {
       this.productsRepository.save(product);
     }
 
+    this.deletePicture(product.pictureUrl);
     this.productsRepository.softDelete(id);
   }
 }

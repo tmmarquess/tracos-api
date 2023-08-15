@@ -1,16 +1,30 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from 'firebase/storage';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>,
+    @Inject(forwardRef(() => ProductsService))
+    private readonly productService: ProductsService,
   ) {}
 
   async uploadPicture(
@@ -31,6 +45,19 @@ export class UsersService {
     await uploadBytes(storageRef, profilePicture.buffer, metadata);
 
     return getDownloadURL(storageRef);
+  }
+
+  async deletePicture(pictureUrl: string) {
+    console.log(pictureUrl);
+    if (pictureUrl === '' || pictureUrl === null || pictureUrl === undefined) {
+      return;
+    }
+    const storage = getStorage();
+    const storageRef = ref(storage, pictureUrl);
+
+    deleteObject(storageRef).catch((error) => {
+      console.log(error);
+    });
   }
 
   async create(userData: CreateUserDto, profilePicture: Express.Multer.File) {
@@ -81,7 +108,15 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    await this.usersRepository.findOne({ where: { id: id } });
+    const user = await this.usersRepository.findOne({ where: { id: id } });
+
+    const user_products = await this.productService.findByCreator(id);
+
+    user_products.forEach((product) => {
+      this.productService.remove(product.id, false);
+    });
+
+    this.deletePicture(user.pictureUrl);
     this.usersRepository.softDelete(id);
   }
 }
