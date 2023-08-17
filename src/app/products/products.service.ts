@@ -17,6 +17,7 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage';
+import { UserEntity } from '../users/user.entity';
 
 @Injectable()
 export class ProductsService {
@@ -76,18 +77,51 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productsRepository.find({
-      select: [
-        'id',
-        'name',
-        'description',
-        'category',
-        'donation',
-        'owner',
-        'traded',
-        'pictureUrl',
-      ],
+    let result: ProductEntity[];
+    if (process.env.TYPEORM_CONNECTION == 'mysql') {
+      result = await this.productsRepository
+      .createQueryBuilder('products')
+      .leftJoinAndMapOne(
+        'products.owner',
+        UserEntity,
+        'users',
+        'users.id = products.owner',
+      )
+      .select('products')
+      .orderBy('users.score', 'DESC')
+      .addOrderBy('products.created_at', 'DESC')
+      .getMany();
+    } else {
+      result = await this.productsRepository
+        .createQueryBuilder('products')
+        .leftJoinAndMapOne(
+          'products.owner',
+          UserEntity,
+          'users',
+          'CAST (users.id as varchar) = products.owner',
+        )
+        .select('products')
+        .orderBy('users.score', 'DESC')
+        .addOrderBy('products.created_at', 'DESC')
+        .getMany();
+    }
+
+    const products = [];
+
+    result.forEach((product) => {
+      products.push({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        donation: product.donation,
+        owner: product.owner,
+        traded: product.traded,
+        pictureUrl: product.pictureUrl,
+      });
     });
+
+    return products;
   }
 
   async findOne(id: string) {
