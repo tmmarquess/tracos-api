@@ -45,7 +45,6 @@ export class ProductsService {
   }
 
   async deletePicture(pictureUrl: string) {
-    console.log(pictureUrl);
     if (pictureUrl === '' || pictureUrl === null || pictureUrl === undefined) {
       return;
     }
@@ -61,6 +60,8 @@ export class ProductsService {
     productData: CreateProductDto,
     productImage: Express.Multer.File,
   ) {
+    productData.donation = eval(productData.donation.toString());
+
     await this.usersService.findOne(productData.owner);
 
     let product = await this.productsRepository.create(productData);
@@ -125,6 +126,10 @@ export class ProductsService {
   }
 
   async update(id: string, newProductData: UpdateProductDto) {
+    if (newProductData.donation !== undefined) {
+      newProductData.donation = eval(newProductData.donation.toString());
+    }
+
     const product = await this.productsRepository.findOne({
       where: { id: id },
     });
