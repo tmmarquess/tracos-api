@@ -17,6 +17,7 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import { ProductsService } from '../products/products.service';
+import { hashSync } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -94,6 +95,10 @@ export class UsersService {
   }
 
   async update(id: string, newUserData: UpdateUserDto) {
+    if (newUserData.password !== undefined) {
+      newUserData.password = hashSync(newUserData.password, 10);
+    }
+
     const user = await this.usersRepository.findOneOrFail({
       where: { id: id },
     });
