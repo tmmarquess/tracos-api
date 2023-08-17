@@ -39,6 +39,12 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('/ranking')
+  async ranking() {
+    return this.usersService.getRanking();
+  }
+
+  @UseGuards(AuthGuard)
   @Get(':id')
   async showUserById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.usersService.findOne(id);

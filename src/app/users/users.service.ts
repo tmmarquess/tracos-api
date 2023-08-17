@@ -88,6 +88,15 @@ export class UsersService {
     }
   }
 
+  async getRanking() {
+    const result = await this.usersRepository.find({
+      select: { name: true, score: true },
+      order: { score: 'DESC', createdAt: 'ASC' },
+    });
+
+    return result.slice(0, 10);
+  }
+
   async findOneByEmail(email: string) {
     return await this.usersRepository.findOneOrFail({
       where: { email: email },
